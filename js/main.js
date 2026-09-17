@@ -51,6 +51,29 @@ function initContactForm() {
   const submitBtn = document.getElementById('contact-submit');
   const submitLabel = document.getElementById('contact-submit-label');
 
+  // "Something else" service: show a brief-description field only when
+  // that option is selected, and make it required while visible.
+  const serviceSelect = document.getElementById('contact-service');
+  const otherWrap = document.getElementById('service-other-wrap');
+  const otherInput = document.getElementById('contact-service-other');
+  if (serviceSelect && otherWrap && otherInput) {
+    serviceSelect.addEventListener('change', () => {
+      const isOther = serviceSelect.value === 'other';
+      otherWrap.classList.toggle('hidden', !isOther);
+      otherInput.required = isOther;
+      if (!isOther) otherInput.value = '';
+    });
+  }
+
+  function effectiveService(data) {
+    // Replace the generic 'other' value with the visitor's brief so the
+    // notification and email subject stay meaningful.
+    if (data.service === 'other' && data.service_other) {
+      return data.service_other;
+    }
+    return data.service;
+  }
+
   function setSubmitting(isSubmitting) {
     if (submitBtn) submitBtn.disabled = isSubmitting;
     if (submitLabel) {
@@ -58,12 +81,12 @@ function initContactForm() {
     }
   }
 
-  function buildMailto(data) {
-    const subject = `Portfolio inquiry: ${data.service} — ${data.name}`;
+  function buildMailto(data, service) {
+    const subject = `Portfolio inquiry: ${service} — ${data.name}`;
     const body = [
       `Name: ${data.name}`,
       `Email: ${data.email}`,
-      `Service: ${data.service}`,
+      `Service: ${service}`,
       '',
       data.message
     ].join('\n');
@@ -122,6 +145,10 @@ function initContactForm() {
     // Never send the honeypot field to the endpoint.
     delete data.company;
 
+    // Fold the "Something else" brief into the reported service.
+    const service = effectiveService(data);
+    delete data.service_other;
+
     setSubmitting(true);
 
     try {
@@ -129,7 +156,7 @@ function initContactForm() {
         const res = await fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(data)
+          body: JSON.stringify({ ...data, service })
         });
         if (!res.ok) throw new Error(`Formspree responded ${res.status}`);
         showSuccess();
@@ -137,7 +164,7 @@ function initContactForm() {
       }
 
       // No endpoint configured — mailto fallback.
-      window.location.href = buildMailto(data);
+      window.location.href = buildMailto(data, service);
       showSuccess();
     } catch (err) {
       console.error('[contact] Delivery failed:', err);
