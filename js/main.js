@@ -65,6 +65,124 @@ function initContactForm() {
     });
   }
 
+  // ----------------------------------------------------------------
+  // Email domain autocomplete: once the visitor types "@", suggest
+  // common providers filtered by what they've typed after it.
+  // Pick with mouse, arrow keys + Enter, or Tab. Dismiss with Esc
+  // or by deleting the "@". Purely client-side; no data leaves the page.
+  // ----------------------------------------------------------------
+  const EMAIL_DOMAINS = [
+    'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com',
+    'icloud.com', 'proton.me', 'aol.com', 'live.com',
+    'mail.com', 'zoho.com', 'yandex.com', 'gmx.com'
+  ];
+  let hideEmailSuggestions = null; // set below; used by showSuccess()
+  const emailInput = document.getElementById('contact-email');
+  if (emailInput) {
+    // Suggestion list lives right below the email input, absolutely positioned.
+    const list = document.createElement('ul');
+    list.id = 'email-suggestions';
+    list.className = 'email-suggestions';
+    list.setAttribute('role', 'listbox');
+    emailInput.setAttribute('autocomplete', 'email');
+    emailInput.setAttribute('aria-autocomplete', 'list');
+    emailInput.insertAdjacentElement('afterend', list);
+
+    let activeIndex = -1; // highlighted suggestion; -1 = none
+
+    function currentDomainQuery(value) {
+      const at = value.lastIndexOf('@');
+      if (at === -1) return null;
+      return { at, typed: value.slice(at + 1) };
+    }
+
+    function matches(value) {
+      const q = currentDomainQuery(value);
+      if (!q) return [];
+      const typed = q.typed.toLowerCase();
+      // Show all domains right after "@", then filter as they type.
+      return EMAIL_DOMAINS.filter(d => d.startsWith(typed)).slice(0, 6);
+    }
+
+    function hide() {
+      list.classList.remove('show');
+      list.innerHTML = '';
+      activeIndex = -1;
+      emailInput.removeAttribute('aria-activedescendant');
+    }
+
+    function apply(domain) {
+      const q = currentDomainQuery(emailInput.value);
+      if (!q) return;
+      emailInput.value = emailInput.value.slice(0, q.at + 1) + domain;
+      hide();
+      emailInput.focus();
+      // Put the caret at the end so typing continues smoothly.
+      emailInput.setSelectionRange(emailInput.value.length, emailInput.value.length);
+    }
+
+    function render() {
+      const items = matches(emailInput.value);
+      if (items.length === 0) { hide(); return; }
+      const q = currentDomainQuery(emailInput.value);
+      const typed = q.typed.toLowerCase();
+      // A full domain already typed (e.g. "test@gmail.com") needs no help.
+      if (typed && EMAIL_DOMAINS.includes(typed)) { hide(); return; }
+      list.innerHTML = '';
+      items.forEach((d, i) => {
+        const li = document.createElement('li');
+        li.id = `email-suggestion-${i}`;
+        li.setAttribute('role', 'option');
+        // Highlight the part the user hasn't typed yet (the completion).
+        li.innerHTML = `@${d.slice(0, typed.length)}<span class="suggest-hint">${d.slice(typed.length)}</span>`;
+        li.addEventListener('mousedown', (e) => {
+          // mousedown (not click) so the input doesn't blur before we apply.
+          e.preventDefault();
+          apply(d);
+        });
+        list.appendChild(li);
+      });
+      list.classList.add('show');
+    }
+
+    function highlight(index) {
+      const items = [...list.children];
+      if (!items.length) return;
+      activeIndex = (index + items.length) % items.length;
+      items.forEach((li, i) => li.classList.toggle('active', i === activeIndex));
+      emailInput.setAttribute('aria-activedescendant', items[activeIndex].id);
+    }
+
+    emailInput.addEventListener('input', () => {
+      activeIndex = -1;
+      render();
+    });
+
+    emailInput.addEventListener('keydown', (e) => {
+      const open = list.classList.contains('show');
+      if (!open) return;
+      const count = list.children.length;
+      if (e.key === 'ArrowDown') { e.preventDefault(); highlight(activeIndex + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); highlight(activeIndex - 1); }
+      else if (e.key === 'Enter' && activeIndex >= 0) {
+        e.preventDefault();
+        apply(list.children[activeIndex].textContent.replace('@', ''));
+      } else if (e.key === 'Tab' && activeIndex >= 0) {
+        // Tab accepts the highlighted completion but still moves focus on.
+        apply(list.children[activeIndex].textContent.replace('@', ''));
+      } else if (e.key === 'Escape') {
+        hide();
+      }
+    });
+
+    emailInput.addEventListener('blur', () => setTimeout(hide, 120));
+    // form.reset() clears the input without firing an "input" event,
+    // so close the dropdown explicitly after resets and successful sends.
+    form.addEventListener('reset', hide);
+    form.addEventListener('submit', hide);
+    hideEmailSuggestions = hide;
+  }
+
   function effectiveService(data) {
     // Replace the generic 'other' value with the visitor's brief so the
     // notification and email subject stay meaningful.
@@ -97,6 +215,14 @@ function initContactForm() {
     showToast('Message sent — thank you! I\'ll get back to you at ' + CONTACT_EMAIL + ' shortly.');
     form.reset();
     formOpenedAt = 0; // restart the time-trap clock for the next submission
+    // Close the email autocomplete and fold the "Something else" field
+    // back to its default hidden state (reset() restores markup defaults,
+    // but our toggles were made via JS, not markup).
+    hideEmailSuggestions?.();
+    if (otherWrap && otherInput && serviceSelect) {
+      otherWrap.classList.add('hidden');
+      otherInput.required = false;
+    }
   }
 
   function showToast(message, isError = false) {
