@@ -1,0 +1,115 @@
+/* ============================================================
+   Portfolio — Global Styles
+   (Extracted from index.html inline <style> block)
+   ============================================================ */
+
+body {
+  background-color: #0e0e10;
+  color: #e5e1e4;
+  overflow-y: auto;
+}
+
+::selection {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+.kinetic-glass {
+  background: rgba(20, 19, 23, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kinetic-glass:hover {
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.2);
+}
+
+.kinetic-card {
+  background-color: #131315;
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kinetic-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: 0 10px 30px -5px rgba(139, 92, 246, 0.22);
+}
+
+/* ------------------------------------------------------------
+   Partial include slots
+   Slots start invisible and fade in once their content has
+   been injected by js/includes.js (prevents the visible "pop").
+   The .js-enabled gate means no-JS visitors simply see content
+   immediately instead of permanently hidden sections.
+   ------------------------------------------------------------ */
+.js-enabled .section-slot {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.js-enabled .section-slot.is-loaded {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------
+   Toast notification
+   Fixed to the bottom-right, slides in when .toast.show is set
+   by js/main.js. Announced to screen readers via role="status"
+   and aria-live="polite" in index.html.
+   ------------------------------------------------------------ */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  max-width: 22rem;
+  padding: 0.875rem 1.25rem;
+  border-radius: 0.75rem;
+  background-color: #131315;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  box-shadow: 0 8px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(139, 92, 246, 0.25);
+  color: #e5e1e4;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.toast-error {
+  border-color: rgba(255, 180, 171, 0.5);
+  box-shadow: 0 8px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(147, 0, 10, 0.4);
+}
+
+/* ------------------------------------------------------------
+   Honeypot field (spam trap)
+   Hidden visually and from screen readers; real users never
+   see or tab into it. Bots that autofill every input get caught.
+   ------------------------------------------------------------ */
+.hp-wrap {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.kinetic-btn {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kinetic-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px -2px rgba(139, 92, 246, 0.4);
+}
