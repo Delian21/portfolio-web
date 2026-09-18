@@ -22,6 +22,31 @@ body {
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ------------------------------------------------------------
+   Header hide-on-scroll-down / show-on-scroll-up
+   js/main.js adds .scroll-hide-enabled once the header partial
+   is injected and toggles .is-hidden based on scroll direction.
+   The transform transition is a touch slower than the glass
+   hover effect so the slide feels deliberate, not twitchy.
+   ------------------------------------------------------------ */
+.scroll-hide-enabled {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.scroll-hide-enabled.is-hidden {
+  transform: translateY(-100%);
+}
+
+/* Respect visitors who prefer reduced motion: no slide, just
+   instant show/hide (the class still toggles so behavior holds). */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hide-enabled {
+    transition: none;
+    will-change: auto;
+  }
+}
+
 .kinetic-glass:hover {
   border-color: rgba(168, 85, 247, 0.45);
   box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.2);

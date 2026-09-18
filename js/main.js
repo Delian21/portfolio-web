@@ -310,3 +310,106 @@ function initContactForm() {
 // Start as soon as the DOM is ready; initContactForm waits for
 // 'partials:loaded' internally if the form partial hasn't landed yet.
 document.addEventListener('DOMContentLoaded', initContactForm);
+
+// ============================================================
+// Header: hide on scroll down, reveal on scroll up.
+// The header is sticky; we slide it off-screen while the visitor
+// is scrolling down past the top of the page and slide it back
+// the moment they scroll up. A small threshold prevents jitter
+// from tiny scroll adjustments (trackpad inertia, mobile rubber-
+// banding). The header also always returns when the page is
+// scrolled back near the top.
+// ============================================================
+function initHeaderScroll() {
+  const header = document.querySelector('header');
+  if (!header) {
+    // Header partial not injected yet — wait like initContactForm does.
+    document.addEventListener('partials:loaded', initHeaderScroll, { once: true });
+    return;
+  }
+
+  header.classList.add('scroll-hide-enabled');
+
+  let lastY = window.scrollY;
+  let ticking = false;
+  const HIDE_THRESHOLD = 120;   // px scrolled down before hiding kicks in
+  const DELTA = 4;              // px of movement needed to switch direction
+
+  function update() {
+    ticking = false;
+    const y = window.scrollY;
+    const diff = y - lastY;
+
+    // Ignore micro-scrolls so the header doesn't flicker.
+    if (Math.abs(diff) < DELTA) return;
+
+    if (diff > 0 && y > HIDE_THRESHOLD) {
+      // Scrolling down meaningfully, past the threshold — hide it.
+      header.classList.add('is-hidden');
+    } else {
+      // Scrolling up (or back near the top) — show it.
+      header.classList.remove('is-hidden');
+    }
+    lastY = y;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+}
+
+initHeaderScroll();
+
+// ============================================================
+// Mobile navigation panel (hamburger dropdown in the header).
+// Toggled by the #mobile-nav-toggle button; closes when a link
+// inside is tapped, when tapping outside, or on Escape.
+// ============================================================
+function initMobileNav() {
+  const toggle = document.getElementById('mobile-nav-toggle');
+  const panel = document.getElementById('mobile-nav');
+  const icon = document.getElementById('mobile-nav-icon');
+  if (!toggle || !panel) {
+    document.addEventListener('partials:loaded', initMobileNav, { once: true });
+    return;
+  }
+  if (toggle.dataset.bound) return;
+  toggle.dataset.bound = 'true';
+
+  function setOpen(open) {
+    panel.classList.toggle('hidden', !open);
+    panel.setAttribute('aria-hidden', String(!open));
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    if (icon) icon.textContent = open ? 'close' : 'menu';
+  }
+
+  toggle.addEventListener('click', () => {
+    setOpen(panel.classList.contains('hidden'));
+  });
+
+  // Navigate + close when a link inside the panel is tapped.
+  panel.addEventListener('click', (e) => {
+    if (e.target.closest('a')) setOpen(false);
+  });
+
+  // Tap outside the header closes it.
+  document.addEventListener('click', (e) => {
+    if (!panel.classList.contains('hidden') && !e.target.closest('header')) {
+      setOpen(false);
+    }
+  });
+
+  // Escape closes it and returns focus to the toggle.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !panel.classList.contains('hidden')) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+}
+
+initMobileNav();

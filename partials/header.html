@@ -21,6 +21,31 @@
 <span>Contact</span>
 <span class="material-symbols-outlined text-sm font-bold">arrow_outward</span>
 </a>
+<!-- Mobile nav toggle: shows the stacked link panel below (md:hidden) -->
+<button aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation menu" class="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg border border-white/10 bg-[#1c1e26] text-cyan-400 hover:border-cyan-500/40 hover:text-white transition-colors" id="mobile-nav-toggle" type="button">
+<span aria-hidden="true" class="material-symbols-outlined" id="mobile-nav-icon">menu</span>
+</button>
 </div>
 </div>
+<!-- Mobile nav panel: stacked section links, md:hidden -->
+<nav aria-hidden="true" class="md:hidden hidden border-t border-white/10 bg-[#131315]/95 backdrop-blur-md" id="mobile-nav">
+<div class="max-w-6xl mx-auto px-6 py-3 flex flex-col">
+<a class="flex items-center justify-between py-3.5 text-xs font-mono uppercase tracking-wider font-semibold text-neutral-300 hover:text-cyan-400 border-b border-white/5 transition-colors" href="#work">
+<span>Work</span>
+<span aria-hidden="true" class="material-symbols-outlined text-sm text-neutral-500">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between py-3.5 text-xs font-mono uppercase tracking-wider font-semibold text-neutral-300 hover:text-cyan-400 border-b border-white/5 transition-colors" href="#skills">
+<span>Skills</span>
+<span aria-hidden="true" class="material-symbols-outlined text-sm text-neutral-500">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between py-3.5 text-xs font-mono uppercase tracking-wider font-semibold text-neutral-300 hover:text-cyan-400 border-b border-white/5 transition-colors" href="#experience">
+<span>Experience</span>
+<span aria-hidden="true" class="material-symbols-outlined text-sm text-neutral-500">arrow_forward</span>
+</a>
+<a class="flex items-center justify-between py-3.5 text-xs font-mono uppercase tracking-wider font-semibold text-neutral-300 hover:text-cyan-400 transition-colors" href="#about">
+<span>About &amp; Education</span>
+<span aria-hidden="true" class="material-symbols-outlined text-sm text-neutral-500">arrow_forward</span>
+</a>
+</div>
+</nav>
 </header>
