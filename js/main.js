@@ -312,13 +312,14 @@ function initContactForm() {
 document.addEventListener('DOMContentLoaded', initContactForm);
 
 // ============================================================
-// Header: hide on scroll down, reveal on scroll up.
-// The header is sticky; we slide it off-screen while the visitor
-// is scrolling down past the top of the page and slide it back
-// the moment they scroll up. A small threshold prevents jitter
-// from tiny scroll adjustments (trackpad inertia, mobile rubber-
-// banding). The header also always returns when the page is
-// scrolled back near the top.
+// Header: compact on scroll down, restore on scroll up.
+// The header is sticky; instead of sliding away it shrinks — the
+// inner row loses height and the tagline fades out — while the
+// visitor scrolls down past a threshold, and expands back the
+// moment they scroll up. The brand, nav links and Contact CTA
+// therefore stay reachable at all times. A small threshold plus
+// a direction delta prevents jitter from tiny scroll adjustments
+// (trackpad inertia, mobile rubber-banding).
 // ============================================================
 function initHeaderScroll() {
   const header = document.querySelector('header');
@@ -328,12 +329,12 @@ function initHeaderScroll() {
     return;
   }
 
-  header.classList.add('scroll-hide-enabled');
+  header.classList.add('scroll-compact-enabled');
 
   let lastY = window.scrollY;
   let ticking = false;
-  const HIDE_THRESHOLD = 120;   // px scrolled down before hiding kicks in
-  const DELTA = 4;              // px of movement needed to switch direction
+  const COMPACT_THRESHOLD = 120; // px scrolled down before compacting
+  const DELTA = 4;               // px of movement needed to switch direction
 
   function update() {
     ticking = false;
@@ -343,12 +344,12 @@ function initHeaderScroll() {
     // Ignore micro-scrolls so the header doesn't flicker.
     if (Math.abs(diff) < DELTA) return;
 
-    if (diff > 0 && y > HIDE_THRESHOLD) {
-      // Scrolling down meaningfully, past the threshold — hide it.
-      header.classList.add('is-hidden');
+    if (diff > 0 && y > COMPACT_THRESHOLD) {
+      // Scrolling down meaningfully, past the threshold — compact it.
+      header.classList.add('is-compact');
     } else {
-      // Scrolling up (or back near the top) — show it.
-      header.classList.remove('is-hidden');
+      // Scrolling up (or back near the top) — restore it.
+      header.classList.remove('is-compact');
     }
     lastY = y;
   }
@@ -364,52 +365,79 @@ function initHeaderScroll() {
 initHeaderScroll();
 
 // ============================================================
-// Mobile navigation panel (hamburger dropdown in the header).
-// Toggled by the #mobile-nav-toggle button; closes when a link
-// inside is tapped, when tapping outside, or on Escape.
+// Floating action button (FAB): toggles the section-link fan.
+// Clicking the trigger opens/closes the actions; clicking a link
+// or anywhere else on the page (or pressing Esc) closes it. The
+// actions are inert while closed (tabindex=-1, pointer-events:
+// none) so keyboard users can't land on hidden links.
 // ============================================================
-function initMobileNav() {
-  const toggle = document.getElementById('mobile-nav-toggle');
-  const panel = document.getElementById('mobile-nav');
-  const icon = document.getElementById('mobile-nav-icon');
-  if (!toggle || !panel) {
-    document.addEventListener('partials:loaded', initMobileNav, { once: true });
-    return;
-  }
-  if (toggle.dataset.bound) return;
-  toggle.dataset.bound = 'true';
+function initFab() {
+  const root = document.getElementById('fab');
+  const trigger = document.getElementById('fab-trigger');
+  if (!root || !trigger) return;
+
+  const actions = [...root.querySelectorAll('.fab-action')];
 
   function setOpen(open) {
-    panel.classList.toggle('hidden', !open);
-    panel.setAttribute('aria-hidden', String(!open));
-    toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-    if (icon) icon.textContent = open ? 'close' : 'menu';
+    root.classList.toggle('fab-open', open);
+    trigger.setAttribute('aria-expanded', String(open));
+    trigger.setAttribute('aria-label', open ? 'Close section navigation' : 'Open section navigation');
+    actions.forEach(a => a.setAttribute('tabindex', open ? '0' : '-1'));
   }
 
-  toggle.addEventListener('click', () => {
-    setOpen(panel.classList.contains('hidden'));
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setOpen(!root.classList.contains('fab-open'));
   });
 
-  // Navigate + close when a link inside the panel is tapped.
-  panel.addEventListener('click', (e) => {
-    if (e.target.closest('a')) setOpen(false);
-  });
-
-  // Tap outside the header closes it.
+  // Close after choosing a destination, and when clicking elsewhere.
+  actions.forEach(a => a.addEventListener('click', () => setOpen(false)));
   document.addEventListener('click', (e) => {
-    if (!panel.classList.contains('hidden') && !e.target.closest('header')) {
-      setOpen(false);
-    }
+    if (root.classList.contains('fab-open') && !root.contains(e.target)) setOpen(false);
   });
-
-  // Escape closes it and returns focus to the toggle.
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !panel.classList.contains('hidden')) {
-      setOpen(false);
-      toggle.focus();
-    }
+    if (e.key === 'Escape' && root.classList.contains('fab-open')) setOpen(false);
   });
 }
 
-initMobileNav();
+initFab();
+
+// ============================================================
+// Active-section highlighting: as the visitor scrolls, highlight
+// the nav link whose section is currently in view. Applies to
+// desktop header links and (when enabled) the side rail.
+// ============================================================
+function initScrollSpy() {
+  const first = document.getElementById('work');
+  if (!first) {
+    // Sections live in partials injected by js/includes.js — wait for
+    // its 'partials:loaded' event like initContactForm does.
+    document.addEventListener('partials:loaded', initScrollSpy, { once: true });
+    return;
+  }
+
+  const sections = ['work', 'skills', 'experience', 'about', 'contact']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  if (!sections.length) return;
+
+  const links = [...document.querySelectorAll('.header-link')];
+  if (!links.length) return;
+
+  const spy = () => {
+    const probe = window.innerHeight * 0.35; // focus line ~35% down the viewport
+    let current = null;
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= probe) current = section;
+      else break; // sections are in DOM order
+    }
+    links.forEach(link => {
+      link.classList.toggle('is-active', !!current && link.getAttribute('href') === `#${current.id}`);
+    });
+  };
+
+  window.addEventListener('scroll', spy, { passive: true });
+  spy();
+}
+
+initScrollSpy();

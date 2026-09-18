@@ -23,27 +23,81 @@ body {
 }
 
 /* ------------------------------------------------------------
-   Header hide-on-scroll-down / show-on-scroll-up
-   js/main.js adds .scroll-hide-enabled once the header partial
-   is injected and toggles .is-hidden based on scroll direction.
-   The transform transition is a touch slower than the glass
-   hover effect so the slide feels deliberate, not twitchy.
+   Desktop header navigation links (hidden on mobile, where the
+   FAB or the side rail takes over). Active-section highlighting
+   is driven by js/main.js via the .is-active class.
    ------------------------------------------------------------ */
-.scroll-hide-enabled {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
+.header-link {
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #cbc3d7;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.scroll-hide-enabled.is-hidden {
-  transform: translateY(-100%);
+.header-link:hover,
+.header-link:focus-visible {
+  color: #ffffff;
+  background-color: rgba(139, 92, 246, 0.14);
 }
 
-/* Respect visitors who prefer reduced motion: no slide, just
-   instant show/hide (the class still toggles so behavior holds). */
+.header-link.is-active {
+  color: #22d3ee;
+  background-color: rgba(34, 211, 238, 0.1);
+}
+
+/* Desktop header layout: logo left, links dead-center, CTA right.
+   The parent container is position:relative (see header partial). */
+@media (min-width: 768px) {
+  .header-nav-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* ------------------------------------------------------------
+   Header compact-on-scroll-down / restore-on-scroll-up
+   js/main.js adds .scroll-compact-enabled once the header partial
+   is injected and toggles .is-compact based on scroll direction.
+   Instead of sliding away, the header shrinks: its inner row loses
+   height and the cyan tagline fades out, keeping the brand, the
+   (centered) desktop nav and the Contact CTA reachable at all
+   times. The transition is a touch slower than the glass hover
+   effect so the shrink feels deliberate, not twitchy.
+   ------------------------------------------------------------ */
+.scroll-compact-enabled .header-inner {
+  transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-compact-enabled .header-tagline {
+  transition: opacity 0.25s ease, max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 1.25rem; /* one line at text-[11px], keeps layout stable */
+  overflow: hidden;
+}
+
+.scroll-compact-enabled.is-compact .header-inner {
+  height: 3.5rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+
+.scroll-compact-enabled.is-compact .header-tagline {
+  opacity: 0;
+  max-height: 0;
+}
+
+/* Respect visitors who prefer reduced motion: no animated shrink,
+   just instant compact/restore (the class still toggles). */
 @media (prefers-reduced-motion: reduce) {
-  .scroll-hide-enabled {
+  .scroll-compact-enabled .header-inner,
+  .scroll-compact-enabled .header-tagline {
     transition: none;
-    will-change: auto;
   }
 }
 
@@ -137,6 +191,210 @@ body {
 .kinetic-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 0 20px -2px rgba(139, 92, 246, 0.4);
+}
+
+/* ------------------------------------------------------------
+   Floating action button (FAB) — section navigation
+   Fixed to the bottom-right. The trigger (plus icon) expands a
+   fan of section links (Work / Skills / Experience / About).
+   Open/close state is toggled via .fab-open on .fab-root by
+   js/main.js. Contact is intentionally not included as a link —
+   the contact section itself holds the inquiry form.
+   ------------------------------------------------------------ */
+.fab-root {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.fab-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.625rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fab-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  background-color: rgba(19, 19, 21, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.6);
+  color: #e5e1e4;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.fab-action .material-symbols-outlined {
+  font-size: 1.125rem;
+  color: #22d3ee;
+}
+
+.fab-action:hover,
+.fab-action:focus-visible {
+  color: #ffffff;
+  border-color: rgba(34, 211, 238, 0.5);
+  background-color: rgba(139, 92, 246, 0.18);
+  box-shadow: 0 6px 22px -4px rgba(139, 92, 246, 0.4);
+  transform: translateY(-1px);
+}
+
+.fab-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  background-color: #131315;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 28px -6px rgba(0, 0, 0, 0.65), 0 0 24px -8px rgba(139, 92, 246, 0.35);
+  color: #e5e1e4;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fab-trigger:hover,
+.fab-trigger:focus-visible {
+  background-color: rgba(139, 92, 246, 0.2);
+  border-color: rgba(168, 85, 247, 0.55);
+  box-shadow: 0 10px 32px -6px rgba(0, 0, 0, 0.65), 0 0 28px -6px rgba(139, 92, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Plus/close icon pair: crossfade + rotation when the menu opens.
+   The + is the resting icon; the close X is kept for the reduced-
+   motion path where the eye animation is disabled. */
+.fab-icon-plus,
+.fab-icon-close {
+  position: absolute;
+  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fab-icon-close {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+/* ------------------------------------------------------------
+   FAB trigger — plus sign (closed) → Itachi's Mangekyou (open).
+   The + fades and rotates away as the eye blooms in with a violet
+   glow; the shuriken then spins very slowly and "breathes" so it
+   feels alive. All in the site's cyan/violet palette.
+   ------------------------------------------------------------ */
+.fab-eye {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: 0;
+  transform: scale(0.4) rotate(-90deg);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fab-eye .blade-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Expanded state: the + is gone — the Mangekyou is awake.
+   A very slow rotation plus a gentle scale-breathing loop gives
+   the eye a living, feral quality without being distracting. */
+.fab-root.fab-open .fab-icon-plus {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+.fab-root.fab-open .fab-icon-close {
+  opacity: 0;
+  transform: rotate(0deg);
+}
+
+.fab-root.fab-open .fab-eye {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  animation: fab-eye-breathe 5s ease-in-out 0.5s infinite;
+}
+
+.fab-root.fab-open .blade-spin {
+  animation: fab-mangekyou-spin 40s linear infinite;
+}
+
+.fab-root.fab-open .fab-trigger {
+  box-shadow: 0 10px 32px -6px rgba(0, 0, 0, 0.65), 0 0 30px -4px rgba(139, 92, 246, 0.55);
+}
+
+@keyframes fab-mangekyou-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fab-eye-breathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.06) rotate(0deg); }
+}
+
+/* Expanded state: reveal actions */
+.fab-root.fab-open .fab-actions {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fab-actions,
+  .fab-action,
+  .fab-trigger,
+  .fab-icon-plus,
+  .fab-icon-close,
+  .fab-eye,
+  .fab-eye .blade-spin {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Keep the FAB clear of the iOS home indicator and lift the toast
+   so the two never collide in the bottom-right corner.
+   On md+ screens the desktop header nav takes over, so the FAB
+   stays hidden entirely. */
+@media (min-width: 768px) {
+  .fab-root {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .fab-root {
+    right: 1rem;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .toast {
+    bottom: calc(6.2rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 /* ------------------------------------------------------------
