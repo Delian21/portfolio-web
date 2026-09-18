@@ -315,11 +315,21 @@ document.addEventListener('DOMContentLoaded', initContactForm);
 // Header: compact on scroll down, restore on scroll up.
 // The header is sticky; instead of sliding away it shrinks — the
 // inner row loses height and the tagline fades out — while the
-// visitor scrolls down past a threshold, and expands back the
-// moment they scroll up. The brand, nav links and Contact CTA
-// therefore stay reachable at all times. A small threshold plus
-// a direction delta prevents jitter from tiny scroll adjustments
-// (trackpad inertia, mobile rubber-banding).
+// visitor scrolls down, and expands back when they scroll up.
+//
+// Flicker prevention (the header used to "struggle" on slow
+// scrolls): three guards work together.
+//   1. Run-length switching — a state change requires ~14px of
+//      committed movement in ONE direction, so trackpad momentum
+//      jitter (+5/-5 alternating) can't flip the state every frame.
+//   2. Hysteresis thresholds — compacting needs y > 140, restoring
+//      happens below 100 or on a committed up-run; there is no
+//      single edge where both states fight.
+//   3. lastY updates on every event — so slow scrolls are tracked
+//      accurately instead of accumulating against a stale anchor.
+// Guard 2 also breaks the layout-shift feedback loop near the
+// bottom of the page (compact shrinks the document, the browser
+// clamps scrollY, the clamp looks like an up-scroll).
 // ============================================================
 function initHeaderScroll() {
   const header = document.querySelector('header');
@@ -333,25 +343,48 @@ function initHeaderScroll() {
 
   let lastY = window.scrollY;
   let ticking = false;
-  const COMPACT_THRESHOLD = 120; // px scrolled down before compacting
-  const DELTA = 4;               // px of movement needed to switch direction
+  let mode = 'expanded';
+  let runDown = 0; // px of committed downward movement
+  let runUp = 0;   // px of committed upward movement
+
+  const COMPACT_THRESHOLD = 140; // must be past this to compact at all
+  const RESTORE_THRESHOLD = 100; // always expanded near the top
+  const DELTA = 4;               // ignore micro-scrolls entirely
+  const SWITCH_PX = 14;          // committed movement needed to switch state
+
+  function setMode(next) {
+    if (mode === next) return;
+    mode = next;
+    header.classList.toggle('is-compact', next === 'compact');
+  }
 
   function update() {
     ticking = false;
     const y = window.scrollY;
     const diff = y - lastY;
+    lastY = y; // track on every event — no stale-anchor accumulation
 
-    // Ignore micro-scrolls so the header doesn't flicker.
     if (Math.abs(diff) < DELTA) return;
 
-    if (diff > 0 && y > COMPACT_THRESHOLD) {
-      // Scrolling down meaningfully, past the threshold — compact it.
-      header.classList.add('is-compact');
+    if (diff > 0) {
+      runDown += diff;
+      runUp = 0;
     } else {
-      // Scrolling up (or back near the top) — restore it.
-      header.classList.remove('is-compact');
+      runUp -= diff;
+      runDown = 0;
     }
-    lastY = y;
+
+    // Near the top: always expanded, regardless of direction.
+    if (y <= RESTORE_THRESHOLD) {
+      setMode('expanded');
+      return;
+    }
+
+    if (runDown >= SWITCH_PX && y > COMPACT_THRESHOLD) {
+      setMode('compact');
+    } else if (runUp >= SWITCH_PX) {
+      setMode('expanded');
+    }
   }
 
   window.addEventListener('scroll', () => {
