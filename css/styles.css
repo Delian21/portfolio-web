@@ -77,7 +77,7 @@ body {
 
 .scroll-compact-enabled .header-tagline {
   transition: opacity 0.25s ease, max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  max-height: 1.25rem; /* one line at text-[11px], keeps layout stable */
+  max-height: 2.5rem; /* two lines at text-[11px] (tagline wraps after "Mobile") */
   overflow: hidden;
 }
 
