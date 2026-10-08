@@ -10,7 +10,7 @@ body {
 }
 
 ::selection {
-  background-color: #f0b429;
+  background-color: var(--accent);
   color: #0e0e10;
 }
 
@@ -18,7 +18,7 @@ body {
   background: rgba(20, 19, 23, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(240, 180, 41, 0.18);
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -43,12 +43,12 @@ body {
 .header-link:hover,
 .header-link:focus-visible {
   color: #ffffff;
-  background-color: rgba(240, 180, 41, 0.14);
+  background-color: rgba(var(--accent-rgb), 0.14);
 }
 
 .header-link.is-active {
-  color: #f0b429;
-  background-color: rgba(240, 180, 41, 0.12);
+  color: var(--accent);
+  background-color: rgba(var(--accent-rgb), 0.12);
 }
 
 /* Desktop header layout: logo left, links dead-center, CTA right.
@@ -102,8 +102,8 @@ body {
 }
 
 .kinetic-glass:hover {
-  border-color: rgba(240, 180, 41, 0.5);
-  box-shadow: 0 0 25px -5px rgba(240, 180, 41, 0.2);
+  border-color: rgba(var(--accent-rgb), 0.5);
+  box-shadow: 0 0 25px -5px rgba(var(--accent-rgb), 0.2);
 }
 
 .kinetic-card {
@@ -148,8 +148,8 @@ body {
   padding: 0.875rem 1.25rem;
   border-radius: 0.75rem;
   background-color: #131315;
-  border: 1px solid rgba(240, 180, 41, 0.45);
-  box-shadow: 0 8px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(240, 180, 41, 0.25);
+  border: 1px solid rgba(var(--accent-rgb), 0.45);
+  box-shadow: 0 8px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(var(--accent-rgb), 0.25);
   color: #e5e1e4;
   font-size: 0.8125rem;
   line-height: 1.5;
@@ -188,7 +188,7 @@ body {
 
 .kinetic-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 20px -2px rgba(240, 180, 41, 0.35);
+  box-shadow: 0 0 20px -2px rgba(var(--accent-rgb), 0.35);
 }
 
 /* ------------------------------------------------------------
@@ -408,7 +408,7 @@ body {
   list-style: none;
   min-width: min(100%, 16rem);
   background-color: #0b0c10;
-  border: 1px solid rgba(240, 180, 41, 0.4);
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
   border-radius: 0.5rem;
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7);
   font-size: 0.75rem;
@@ -436,7 +436,7 @@ body {
 
 .email-suggestions li:hover,
 .email-suggestions li.active {
-  background-color: rgba(240, 180, 41, 0.18);
+  background-color: rgba(var(--accent-rgb), 0.18);
   color: #ffffff;
 }
 
@@ -448,4 +448,22 @@ body {
 .email-suggestions li.active .suggest-hint,
 .email-suggestions li:hover .suggest-hint {
   color: #c9c4d0;
+}
+
+/* ============================================================
+   Phase 2B — Ember Clay mood (hero + project cards only)
+   The palette is declared once in index.html's :root block;
+   these rules consume the custom properties.
+   ============================================================ */
+.hero-wash {
+  background-color: var(--wash);
+  border-radius: 1.5rem;
+}
+
+.work-card {
+  background-color: var(--wash);
+}
+
+.work-card:hover {
+  border-color: var(--accent-deep);
 }

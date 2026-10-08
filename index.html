@@ -16,6 +16,19 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Ember Clay palette — single source of truth. js/tailwind-config.js
+     reads these custom properties to build the Tailwind accent color,
+     and css/styles.css consumes them directly. Change the accent here. -->
+<style>
+:root {
+  --accent: #d9704f;
+  --accent-rgb: 217, 112, 79;
+  --accent-deep: #9c4730;
+  --wash: #17110d;
+  --paper: #f6efe1;
+  --ink: #33271f;
+}
+</style>
 <!-- Tailwind CDN — must load BEFORE js/tailwind-config.js -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="js/tailwind-config.js"></script>

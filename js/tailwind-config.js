@@ -9,6 +9,8 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
+        /* Accent comes from the :root block in index.html (single source). */
+        accent: (getComputedStyle(document.documentElement).getPropertyValue("--accent") || "").trim() || "#d9704f",
         "secondary-fixed-dim": "#4cd7f6",
         "on-tertiary-fixed": "#001a42",
         "on-secondary-container": "#00424e",
