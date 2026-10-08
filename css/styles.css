@@ -10,15 +10,15 @@ body {
 }
 
 ::selection {
-  background-color: #8b5cf6;
-  color: #ffffff;
+  background-color: #f0b429;
+  color: #0e0e10;
 }
 
 .kinetic-glass {
   background: rgba(20, 19, 23, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(240, 180, 41, 0.18);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -43,12 +43,12 @@ body {
 .header-link:hover,
 .header-link:focus-visible {
   color: #ffffff;
-  background-color: rgba(139, 92, 246, 0.14);
+  background-color: rgba(240, 180, 41, 0.14);
 }
 
 .header-link.is-active {
-  color: #22d3ee;
-  background-color: rgba(34, 211, 238, 0.1);
+  color: #f0b429;
+  background-color: rgba(240, 180, 41, 0.12);
 }
 
 /* Desktop header layout: logo left, links dead-center, CTA right.
@@ -66,7 +66,7 @@ body {
    js/main.js adds .scroll-compact-enabled once the header partial
    is injected and toggles .is-compact based on scroll direction.
    Instead of sliding away, the header shrinks: its inner row loses
-   height and the cyan tagline fades out, keeping the brand, the
+   height and the amber tagline fades out, keeping the brand, the
    (centered) desktop nav and the Contact CTA reachable at all
    times. The transition is a touch slower than the glass hover
    effect so the shrink feels deliberate, not twitchy.
@@ -102,8 +102,8 @@ body {
 }
 
 .kinetic-glass:hover {
-  border-color: rgba(168, 85, 247, 0.45);
-  box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.2);
+  border-color: rgba(240, 180, 41, 0.5);
+  box-shadow: 0 0 25px -5px rgba(240, 180, 41, 0.2);
 }
 
 .kinetic-card {
@@ -148,8 +148,8 @@ body {
   padding: 0.875rem 1.25rem;
   border-radius: 0.75rem;
   background-color: #131315;
-  border: 1px solid rgba(139, 92, 246, 0.4);
-  box-shadow: 0 8px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(240, 180, 41, 0.45);
+  box-shadow: 0 8px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(240, 180, 41, 0.25);
   color: #e5e1e4;
   font-size: 0.8125rem;
   line-height: 1.5;
@@ -188,7 +188,7 @@ body {
 
 .kinetic-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 20px -2px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 20px -2px rgba(240, 180, 41, 0.35);
 }
 
 /* ------------------------------------------------------------
@@ -230,7 +230,7 @@ body {
   background-color: rgba(19, 19, 21, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(240, 180, 41, 0.3);
   box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.6);
   color: #e5e1e4;
   font-family: 'JetBrains Mono', monospace;
@@ -243,15 +243,15 @@ body {
 
 .fab-action .material-symbols-outlined {
   font-size: 1.125rem;
-  color: #22d3ee;
+  color: #f0b429;
 }
 
 .fab-action:hover,
 .fab-action:focus-visible {
   color: #ffffff;
-  border-color: rgba(34, 211, 238, 0.5);
-  background-color: rgba(139, 92, 246, 0.18);
-  box-shadow: 0 6px 22px -4px rgba(139, 92, 246, 0.4);
+  border-color: rgba(240, 180, 41, 0.55);
+  background-color: rgba(240, 180, 41, 0.16);
+  box-shadow: 0 6px 22px -4px rgba(240, 180, 41, 0.35);
   transform: translateY(-1px);
 }
 
@@ -262,11 +262,11 @@ body {
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 9999px;
-  border: 1px solid rgba(139, 92, 246, 0.35);
+  border: 1px solid rgba(240, 180, 41, 0.4);
   background-color: #131315;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 28px -6px rgba(0, 0, 0, 0.65), 0 0 24px -8px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 8px 28px -6px rgba(0, 0, 0, 0.65), 0 0 24px -8px rgba(240, 180, 41, 0.3);
   color: #e5e1e4;
   cursor: pointer;
   position: relative;
@@ -275,9 +275,9 @@ body {
 
 .fab-trigger:hover,
 .fab-trigger:focus-visible {
-  background-color: rgba(139, 92, 246, 0.2);
-  border-color: rgba(168, 85, 247, 0.55);
-  box-shadow: 0 10px 32px -6px rgba(0, 0, 0, 0.65), 0 0 28px -6px rgba(139, 92, 246, 0.5);
+  background-color: rgba(240, 180, 41, 0.18);
+  border-color: rgba(240, 180, 41, 0.6);
+  box-shadow: 0 10px 32px -6px rgba(0, 0, 0, 0.65), 0 0 28px -6px rgba(240, 180, 41, 0.45);
   transform: translateY(-2px);
 }
 
@@ -408,7 +408,7 @@ body {
   list-style: none;
   min-width: min(100%, 16rem);
   background-color: #0b0c10;
-  border: 1px solid rgba(139, 92, 246, 0.35);
+  border: 1px solid rgba(240, 180, 41, 0.4);
   border-radius: 0.5rem;
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7);
   font-size: 0.75rem;
@@ -436,7 +436,7 @@ body {
 
 .email-suggestions li:hover,
 .email-suggestions li.active {
-  background-color: rgba(139, 92, 246, 0.18);
+  background-color: rgba(240, 180, 41, 0.18);
   color: #ffffff;
 }
 
