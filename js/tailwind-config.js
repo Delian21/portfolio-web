@@ -71,7 +71,8 @@ tailwind.config = {
         headline: ["Plus Jakarta Sans", "sans-serif"],
         display: ["Plus Jakarta Sans", "sans-serif"],
         body: ["Plus Jakarta Sans", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"]
+        mono: ["JetBrains Mono", "monospace"],
+        hand: ["Caveat", "cursive"]
       },
       boxShadow: {
         'glow-violet': '0 0 25px -5px rgba(139, 92, 246, 0.25)',
