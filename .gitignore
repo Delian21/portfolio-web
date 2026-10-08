@@ -1,2 +1,9 @@
 # Freebuff
 .freebuff/
+
+dist/
+review/
+worker.js
+manifest.json
+site.json
+*.log

@@ -4,18 +4,39 @@
    NOTE: Must load AFTER the Tailwind CDN script.
    ============================================================ */
 
+/* Accent + theme tokens come from the :root block in index.html
+   (single source of truth). */
+const themeVar = (name, fallback) =>
+  (getComputedStyle(document.documentElement).getPropertyValue(name) || "").trim() || fallback;
+
 tailwind.config = {
   darkMode: "class",
   theme: {
     extend: {
       colors: {
-        /* Accent comes from the :root block in index.html (single source). */
-        accent: (getComputedStyle(document.documentElement).getPropertyValue("--accent") || "").trim() || "#d9704f",
+        accent: themeVar("--accent", "#d9704f"),
+        "accent-deep": themeVar("--accent-deep", "#9c4730"),
+        page: themeVar("--bg", "#0e0e10"),
+        card: themeVar("--surface", "#131315"),
+        inset: themeVar("--surface-inset", "#0b0c10"),
+        tint: themeVar("--surface-tint", "#13141a"),
+        raised: themeVar("--surface-raised", "#15161c"),
+        subtle: themeVar("--surface-subtle", "#1c1e26"),
+        ink: themeVar("--text", "#e5e1e4"),
+        bright: themeVar("--text-bright", "#ffffff"),
+        soft: themeVar("--text-soft", "#e5e5e5"),
+        "ink-2": themeVar("--text-2", "#cbc3d7"),
+        mid: themeVar("--text-mid", "#d4d4d4"),
+        "ink-3": themeVar("--text-3", "#a3a3a3"),
+        faint: themeVar("--text-faint", "#737373"),
+        line: themeVar("--line-color", "#ffffff"),
+        background: themeVar("--bg", "#0e0e10"),
+        "on-surface": themeVar("--text", "#e5e1e4"),
         "secondary-fixed-dim": "#4cd7f6",
         "on-tertiary-fixed": "#001a42",
         "on-secondary-container": "#00424e",
         "surface": "#131315",
-        "on-surface": "#e5e1e4",
+        /* legacy M3 palette below (unused tokens kept for reference) */
         "primary-fixed": "#e9ddff",
         "on-tertiary-fixed-variant": "#004395",
         "tertiary-fixed": "#d8e2ff",
@@ -42,7 +63,6 @@ tailwind.config = {
         "surface-container": "#201f22",
         "tertiary": "#adc6ff",
         "on-tertiary-container": "#00285d",
-        "background": "#0e0e10",
         "outline": "#958ea0",
         "secondary": "#4cd7f6",
         "on-primary-container": "#340080",

@@ -1,37 +1,37 @@
 <!-- partials/contact.html — 7. Contact / Project Inquiry Section -->
 <section class="space-y-8" id="contact">
-<div class="pb-4 border-b border-white/10 flex items-end justify-between">
+<div class="pb-4 border-b border-line/10 flex items-end justify-between">
 <div>
-<h2 class="text-2xl md:text-4xl font-bold text-white font-headline tracking-tight">
+<h2 class="text-2xl md:text-4xl font-bold text-bright font-headline tracking-tight">
         Start a Project or Inquiry
       </h2>
 </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
 <div class="md:col-span-5 space-y-4">
-<p class="text-xs md:text-sm text-neutral-300 leading-relaxed font-body bg-[#15161c] border border-white/10 rounded-xl p-5">
+<p class="text-xs md:text-sm text-mid leading-relaxed font-body bg-raised border border-line/10 rounded-xl p-5">
       Have a project in mind, need a Figma mock turned into code, or looking for a cross-platform app layout? Reach out directly via email, phone, or LinkedIn.
     </p>
-<div class="space-y-3 font-mono text-xs">
+<div class="space-y-3 text-xs">
 <div class="kinetic-card rounded-xl p-4 flex items-center justify-between">
-<span class="text-neutral-400 text-[11px] font-semibold">Email</span>
-<a class="text-accent hover:text-white font-semibold underline decoration-accent/40 transition-colors" href="mailto:okechukwua06@gmail.com">
+<span class="text-ink-3 text-[11px] font-semibold">Email</span>
+<a class="text-accent-deep hover:text-bright font-semibold underline decoration-accent/40 transition-colors" href="mailto:okechukwua06@gmail.com">
           okechukwua06@gmail.com
         </a>
 </div>
 <div class="kinetic-card rounded-xl p-4 flex items-center justify-between">
-<span class="text-neutral-400 text-[11px] font-semibold">Phone / WhatsApp</span>
-<a class="text-accent hover:text-white font-semibold underline decoration-accent/40 transition-colors" href="tel:+2349031704037">
+<span class="text-ink-3 text-[11px] font-semibold">Phone / WhatsApp</span>
+<a class="text-accent-deep hover:text-bright font-semibold underline decoration-accent/40 transition-colors" href="tel:+2349031704037">
           +2349031704037
         </a>
 </div>
 <div class="kinetic-card rounded-xl p-4 flex items-center justify-between">
-<span class="text-neutral-400 text-[11px] font-semibold">Location</span>
-<span class="text-white font-semibold">Nigeria (Open to Remote)</span>
+<span class="text-ink-3 text-[11px] font-semibold">Location</span>
+<span class="text-bright font-semibold">Nigeria (Open to Remote)</span>
 </div>
 <div class="kinetic-card rounded-xl p-4 flex items-center justify-between">
-<span class="text-neutral-400 text-[11px] font-semibold">LinkedIn</span>
-<a class="text-accent hover:text-white font-semibold flex items-center gap-1 underline decoration-accent/40 transition-colors" href="https://www.linkedin.com/in/okechukwu-amadi-968b8316a/" rel="noopener noreferrer" target="_blank">
+<span class="text-ink-3 text-[11px] font-semibold">LinkedIn</span>
+<a class="text-accent-deep hover:text-bright font-semibold flex items-center gap-1 underline decoration-accent/40 transition-colors" href="https://www.linkedin.com/in/okechukwu-amadi-968b8316a/" rel="noopener noreferrer" target="_blank">
 <span>View Profile</span>
 <span class="material-symbols-outlined text-xs">open_in_new</span>
 </a>
@@ -42,30 +42,30 @@
 <form class="kinetic-card rounded-2xl p-6 sm:p-8 space-y-4" id="contact-form" novalidate>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="space-y-1.5">
-<label class="block text-xs font-mono font-semibold text-neutral-300" for="contact-name">Your Name *</label>
-<input class="w-full px-4 py-3 rounded-lg bg-[#0b0c10] border border-white/10 text-white placeholder:text-neutral-500 text-xs font-body focus:outline-none focus:border-accent transition-colors" id="contact-name" name="name" placeholder="Your name" required="" type="text"/>
+<label class="block text-xs font-semibold text-mid" for="contact-name">Your Name *</label>
+<input class="w-full px-4 py-3 rounded-lg bg-inset border border-line/10 text-bright placeholder:text-faint text-xs font-body focus:outline-none focus:border-accent transition-colors" id="contact-name" name="name" placeholder="Your name" required="" type="text"/>
 </div>
 <div class="space-y-1.5 relative">
-<label class="block text-xs font-mono font-semibold text-neutral-300" for="contact-email">Email Address *</label>
-<input class="w-full px-4 py-3 rounded-lg bg-[#0b0c10] border border-white/10 text-white placeholder:text-neutral-500 text-xs font-body focus:outline-none focus:border-accent transition-colors" id="contact-email" name="email" placeholder="you@example.com" required="" type="email"/>
+<label class="block text-xs font-semibold text-mid" for="contact-email">Email Address *</label>
+<input class="w-full px-4 py-3 rounded-lg bg-inset border border-line/10 text-bright placeholder:text-faint text-xs font-body focus:outline-none focus:border-accent transition-colors" id="contact-email" name="email" placeholder="you@example.com" required="" type="email"/>
 </div>
 </div>
 <div class="space-y-1.5">
-<label class="block text-xs font-mono font-semibold text-neutral-300" for="contact-service">Service Needed</label>
-<select class="w-full px-4 py-3 rounded-lg bg-[#0b0c10] border border-white/10 text-white text-xs font-body focus:outline-none focus:border-accent cursor-pointer transition-colors" id="contact-service" name="service">
-<option class="bg-[#0b0c10] text-white" value="frontend">Frontend Web Development (React / HTML &amp; CSS)</option>
-<option class="bg-[#0b0c10] text-white" value="flutter">Mobile App Development (Flutter / Cross-Platform)</option>
-<option class="bg-[#0b0c10] text-white" value="full">Full-Time / Freelance Engineering Role</option>
-<option class="bg-[#0b0c10] text-white" value="other">Something else</option>
+<label class="block text-xs font-semibold text-mid" for="contact-service">Service Needed</label>
+<select class="w-full px-4 pr-10 py-3 rounded-lg bg-inset border border-line/10 text-bright text-xs font-body focus:outline-none focus:border-accent cursor-pointer transition-colors" id="contact-service" name="service">
+<option class="bg-inset text-bright" value="frontend">Frontend Web Development (React / HTML &amp; CSS)</option>
+<option class="bg-inset text-bright" value="flutter">Mobile App Development (Flutter / Cross-Platform)</option>
+<option class="bg-inset text-bright" value="full">Full-Time / Freelance Engineering Role</option>
+<option class="bg-inset text-bright" value="other">Something else</option>
 </select>
 </div>
 <div class="space-y-1.5 hidden" id="service-other-wrap">
-<label class="block text-xs font-mono font-semibold text-neutral-300" for="contact-service-other">Brief Description *</label>
-<input class="w-full px-4 py-3 rounded-lg bg-[#0b0c10] border border-white/10 text-white placeholder:text-neutral-500 text-xs font-body focus:outline-none focus:border-accent transition-colors" id="contact-service-other" maxlength="100" name="service_other" placeholder="e.g. Figma design to code, performance audit, consulting..." type="text"/>
+<label class="block text-xs font-semibold text-mid" for="contact-service-other">Brief Description *</label>
+<input class="w-full px-4 py-3 rounded-lg bg-inset border border-line/10 text-bright placeholder:text-faint text-xs font-body focus:outline-none focus:border-accent transition-colors" id="contact-service-other" maxlength="100" name="service_other" placeholder="e.g. Figma design to code, performance audit, consulting..." type="text"/>
 </div>
 <div class="space-y-1.5">
-<label class="block text-xs font-mono font-semibold text-neutral-300" for="contact-message">Project Overview</label>
-<textarea class="w-full px-4 py-3 rounded-lg bg-[#0b0c10] border border-white/10 text-white placeholder:text-neutral-500 text-xs font-body focus:outline-none focus:border-accent resize-none transition-colors" id="contact-message" name="message" placeholder="Tell me briefly about your project goals or role..." rows="4"></textarea>
+<label class="block text-xs font-semibold text-mid" for="contact-message">Project Overview</label>
+<textarea class="w-full px-4 py-3 rounded-lg bg-inset border border-line/10 text-bright placeholder:text-faint text-xs font-body focus:outline-none focus:border-accent resize-none transition-colors" id="contact-message" name="message" placeholder="Tell me briefly about your project goals or role..." rows="4"></textarea>
 </div>
 <!-- Honeypot: invisible to humans, tempting to spam bots. If a bot
      fills it in, js/main.js silently drops the submission. -->
@@ -73,7 +73,7 @@
 <label for="contact-company">Company</label>
 <input autocomplete="off" id="contact-company" name="company" tabindex="-1" type="text"/>
 </div>
-<button class="kinetic-btn w-full py-3.5 rounded-lg bg-white hover:bg-neutral-200 text-black font-mono text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed" id="contact-submit" type="submit">
+<button class="kinetic-btn w-full py-3.5 rounded-lg bg-white border border-line/20 hover:bg-neutral-200 text-black text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed" id="contact-submit" type="submit">
 <span class="material-symbols-outlined text-base font-bold">send</span>
 <span id="contact-submit-label">Send Inquiry</span>
 </button>
