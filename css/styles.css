@@ -459,10 +459,6 @@ body {
   border-radius: 1.5rem;
 }
 
-.work-card {
-  background-color: var(--wash);
-}
-
 .work-card:hover {
   border-color: var(--accent-deep);
 }
