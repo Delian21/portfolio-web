@@ -47,7 +47,7 @@ body {
 }
 
 .header-link.is-active {
-  color: var(--accent);
+  color: var(--accent-deep);
   background-color: rgba(var(--accent-rgb), 0.12);
 }
 
