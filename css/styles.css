@@ -108,15 +108,13 @@ body {
 
 .kinetic-card {
   background-color: #131315;
-  border: 1px solid rgba(139, 92, 246, 0.18);
-  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.6);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: none;
+  transition: border-color 0.25s ease;
 }
 
 .kinetic-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(168, 85, 247, 0.45);
-  box-shadow: 0 10px 30px -5px rgba(139, 92, 246, 0.22);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* ------------------------------------------------------------
