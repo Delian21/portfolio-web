@@ -7,3 +7,6 @@ worker.js
 manifest.json
 site.json
 *.log
+
+# Local dev-practices notes — not tracked in this repo
+VOWS.md
