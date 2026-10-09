@@ -10,9 +10,12 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 <!-- Project 1: Mudd Cottage Herbhome -->
 <div class="kinetic-card work-card rounded-xl p-6 sm:p-10 md:col-span-2 flex flex-col">
-<!-- Screenshot slot: drop the real image at assets/img/work/mudd-cottage.png -->
-<div class="project-shot w-full aspect-video rounded-lg border border-dashed border-line/20 bg-inset flex items-center justify-center text-center px-4 text-[11px] text-ink-3">
+<!-- Screenshot slot: real image lives at assets/img/work/mudd-cottage.png.
+     The placeholder below is kept as the fallback only — it is what shows
+     if the file is missing (the img removes itself on error). -->
+<div class="project-shot relative overflow-hidden w-full aspect-video rounded-lg border border-dashed border-line/20 bg-inset flex items-center justify-center text-center px-4 text-[11px] text-ink-3">
         Screenshot goes here — add assets/img/work/mudd-cottage.png
+        <img alt="Desktop screenshot of the Mudd Cottage Herbhome website, showing a cream and terracotta page with a phone version overlaid on the right." class="absolute inset-0 h-full w-full object-cover" height="900" loading="lazy" onerror="this.remove()" src="assets/img/work/mudd-cottage.png" width="1600"/>
       </div>
 <h3 class="mt-6 text-3xl md:text-4xl font-hand font-bold text-bright">
         Mudd Cottage Herbhome
@@ -72,9 +75,12 @@
 </div>
 <!-- Project 3: GrowBox Mobile App -->
 <div class="kinetic-card work-card rounded-xl p-6 sm:p-8 flex flex-col">
-<!-- Screenshot slot: drop the real image at assets/img/work/growbox-mobile.png -->
-<div class="project-shot w-full aspect-video rounded-lg border border-dashed border-line/20 bg-inset flex items-center justify-center text-center px-4 text-[11px] text-ink-3">
+<!-- Screenshot slot: real image lives at assets/img/work/growbox-mobile.png.
+     The placeholder below is kept as the fallback only — it is what shows
+     if the file is missing (the img removes itself on error). -->
+<div class="project-shot relative overflow-hidden w-full aspect-video rounded-lg border border-dashed border-line/20 bg-inset flex items-center justify-center text-center px-4 text-[11px] text-ink-3">
         Screenshot goes here — add assets/img/work/growbox-mobile.png
+        <img alt="Three screens of the GrowBox mobile app shown side by side on a cream background." class="absolute inset-0 h-full w-full object-cover" height="900" loading="lazy" onerror="this.remove()" src="assets/img/work/growbox-mobile.png" width="1600"/>
       </div>
 <h3 class="mt-6 text-2xl md:text-3xl font-hand font-bold text-bright">
         GrowBox Mobile App
