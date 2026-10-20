@@ -107,5 +107,39 @@
 </div>
 </div>
 </div>
+<!-- Project 4: Echo Bay -->
+<div class="kinetic-card work-card rounded-xl p-6 sm:p-8 flex flex-col">
+<!-- Screenshot slot: real image lives at assets/img/work/echo-bay.png.
+     The placeholder below is kept as the fallback only — it is what shows
+     if the file is missing (the img removes itself on error). -->
+<div class="project-shot relative overflow-hidden w-full aspect-video rounded-lg border border-dashed border-line/20 bg-inset flex items-center justify-center text-center px-4 text-[11px] text-ink-3">
+        Screenshot goes here — add assets/img/work/echo-bay.png
+        <img alt="The Echo Bay app interface drawn in ink on warm cream paper." class="absolute inset-0 h-full w-full object-cover" height="900" loading="lazy" onerror="this.remove()" src="assets/img/work/echo-bay.png" width="1600"/>
+      </div>
+<h3 class="mt-6 text-2xl md:text-3xl font-hand font-bold text-bright">
+        Echo Bay
+      </h3>
+<p class="mt-2 text-[11px] text-accent-deep">
+        Mobile &amp; Web App · Local-First PWA · Flutter
+      </p>
+<p class="mt-3 max-w-3xl text-sm md:text-base text-ink-3 leading-relaxed font-body">
+        Problem: life-logging apps ship every photo, message, and mood to someone else's server, so the record of your day is never really yours. Decision: I built Echo Bay in Flutter with Drift (SQLite) as the local source of truth, so the Square feed, Vault chats, and keepsake wall work offline and the data stays on the device — the same codebase compiles to a PWA with SQLite running as WASM. To improve: the Vault schema already carries an unused ciphertext column, so the next step is real end-to-end encryption plus a server to sync across devices.
+      </p>
+<div class="mt-6 pt-4 border-t border-line/10 flex flex-wrap items-center justify-between gap-3">
+<span class="font-mono text-[11px] text-ink-3">
+          Flutter, Dart, Drift (SQLite), PWA, Netlify
+        </span>
+<div class="flex items-center gap-2">
+<a class="kinetic-btn inline-flex items-center gap-1 px-3 py-1 rounded bg-subtle border border-line/10 text-xs text-mid hover:text-bright hover:border-accent/30" href="https://github.com/Delian21/echo-bay" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-xs text-mid">terminal</span>
+<span>GitHub</span>
+</a>
+<a class="kinetic-btn inline-flex items-center gap-1 px-3 py-1 rounded bg-white border border-line/20 text-black text-xs font-bold hover:bg-neutral-200" href="https://echo-bay.netlify.app" rel="noopener noreferrer" target="_blank">
+<span>Live Demo</span>
+<span class="material-symbols-outlined text-xs font-bold">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
 </div>
 </section>
